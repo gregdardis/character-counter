@@ -1,5 +1,6 @@
 #TODO: add comments to methods
-#TODO: add color to print output
+from colorama import Fore
+from colorama import Style
 
 class CharacterCounter():
     '''Counts characters in a .txt file and displays them to the console\n
@@ -19,13 +20,13 @@ class CharacterCounter():
         '''
         sorted_char_counts = self._get_sorted_char_counts()
 
-        print(f'\nThe number of each character in {self.file.name} from largest to smallest is:')
+        print(f'\n{Style.BRIGHT}{Fore.GREEN}The number of each character in {self.file.name} from largest to smallest is:{Style.RESET_ALL}')
 
         for char, count in sorted_char_counts:
             if char == '\n':
-                print(f'\\n: {count}')
+                print(f'{Style.BRIGHT}{Fore.WHITE}\\n: {count}{Style.RESET_ALL}')
             else:
-                print(f'{char}: {count}')
+                print(f'{Style.BRIGHT}{Fore.WHITE}{char}: {count}{Style.RESET_ALL}')
                 
 
     def _count_chars(self):
@@ -46,11 +47,11 @@ class CharacterCounter():
 
 # Demo
 if __name__ == '__main__':
-    print('\nWelcome to Character Counter!\n')
+    print(f'\n{Style.BRIGHT}{Fore.GREEN}Welcome to Character Counter!{Style.RESET_ALL}\n')
     print('Pass me a text file, and I will tell you how many of each character are in it.')
 
     while True:
-        file_path = input('\nEnter a file path (q to quit): ')
+        file_path = input(f'\nEnter a file path {Style.BRIGHT}{Fore.RED}(q to quit){Style.RESET_ALL}: ')
         if file_path.lower() == 'q':
             print('\nGoodbye!')
             exit()
