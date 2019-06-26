@@ -1,13 +1,11 @@
-#TODO: make this object oriented, and just use the main method as the demo section
-#Expose an api so this can be imported and called externally, even though who would want to? LOL
-#TODO: add docstrings to methods
+#TODO: add comments to methods
 #TODO: add color to print output
-#TODO: format output of letters largest to smallest better
 
 class CharacterCounter():
-    '''
-    Counts characters in a .txt file and displays them to the console.\n
-    Throws IOError if file path doesn't exist.
+    '''Counts characters in a .txt file and displays them to the console\n
+    
+    Raises:
+        IOError: file path doesn't exist
     '''
     def __init__(self, file_path):
         try:
@@ -16,30 +14,35 @@ class CharacterCounter():
             raise IOError("File not found. Make sure your file path is correct.")
 
     def display_char_counts(self):
-        # list of tuples counting (char, count) to be used for sorting
-        unsorted_letter_counts = self._get_letter_counts_list()
-        sorted_letter_counts = sorted(unsorted_letter_counts, key=lambda tup: tup[1], reverse=True)
+        '''
+        Displays the number of each character in the text file to the console.
+        '''
+        sorted_char_counts = self._get_sorted_char_counts()
 
-        print('\nThe number of each letter in {} from largest to smallest is:'.format(self.file.name))
-        print(sorted_letter_counts)
+        print(f'\nThe number of each character in {self.file.name} from largest to smallest is:')
 
-    def _get_letter_counts(self):
+        for char, count in sorted_char_counts:
+            if char == '\n':
+                print(f'\\n: {count}')
+            else:
+                print(f'{char}: {count}')
+                
+
+    def _count_chars(self):
         counts = {}
         for line in self.file:
             for char in line:
-                if char in counts:
-                    counts[char] += 1
-                else:
-                    counts[char] = 1
+                counts[char] = counts[char] + 1 if char in counts else 1
         return counts
 
-    def _get_letter_counts_list(self):
-        counts_map = self._get_letter_counts()
+    def _get_sorted_char_counts(self):
+        char_counts = self._count_chars()
 
-        counts_list = []
-        for letter in counts_map:
-            counts_list.append((letter, counts_map[letter]))
-        return counts_list
+        unsorted_char_counts = []
+        for letter in char_counts:
+            unsorted_char_counts.append((letter, char_counts[letter]))
+
+        return sorted(unsorted_char_counts, key=lambda tup: tup[1], reverse=True)
 
 # Demo
 if __name__ == '__main__':
