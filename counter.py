@@ -1,5 +1,7 @@
 from colorama import Fore
 from colorama import Style
+from collections import defaultdict
+from collections import namedtuple
 
 class CharacterCounter():
     """Counts characters in a .txt file and displays them to the console\n
@@ -29,17 +31,18 @@ class CharacterCounter():
                 print(f'{Style.BRIGHT}{Fore.WHITE}{char}: {count}{Style.RESET_ALL}')
                 
     def _count_chars(self):
-        counts = {}
+        counts = defaultdict(lambda: 1)
         for line in self.file:
             for char in line:
-                counts[char] = counts[char] + 1 if char in counts else 1
+                counts[char] = counts[char] + 1
         return counts
 
     def _get_sorted_char_counts(self):
         char_counts = self._count_chars()
         unsorted_char_counts = []
+        Count = namedtuple('Count', 'letter count')
         for letter in char_counts:
-            unsorted_char_counts.append((letter, char_counts[letter]))
+            unsorted_char_counts.append(Count(letter=letter, count=char_counts[letter]))
 
         return sorted(unsorted_char_counts, key=lambda tup: tup[1], reverse=True)
 
